@@ -101,6 +101,9 @@ Contributions are welcome! Please submit a pull request or open an issue for any
 
 This project is licensed under the GNU GPL v2.o License. See the `LICENSE` file for more information.
 
+### Disclaimer
+This tool is an open-source project and is provided as-is, without any warranties or guarantees. The developer (AJ Brown) is not responsible for any issues or damages resulting from the use of this tool. By using this tool, you agree to hold the developer harmless from any liability.
+
 ## Contact
 
 Developed by **AJ Brown**. You can reach me at: [ansleybrown1337@gmail.com](mailto:ansleybrown1337@gmail.com).
