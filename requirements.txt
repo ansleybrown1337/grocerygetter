@@ -1,0 +1,11 @@
+Brotli
+certifi
+charset-normalizer
+click
+colorama
+idna
+PySocks
+python-dotenv
+requests
+urllib3
+win-inet-pton
