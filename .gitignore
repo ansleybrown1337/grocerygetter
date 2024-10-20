@@ -1,3 +1,6 @@
+# Ignore private docs
+docs/private/
+
 # Ignore environment files
 code/.env
 

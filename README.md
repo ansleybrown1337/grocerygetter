@@ -2,6 +2,9 @@
 Created by: <br/>
 [AJ Brown](https://sites.google.com/view/ansleyjbrown)<br/>
 
+> [!NOTE]
+> This project is a work in progress and is not functional yet. Please check back later for updates.
+
 Banner image here:
 ![banner](./figs/banner.png)
 *Figure generated using DALL-E from OpenAI*
@@ -11,6 +14,8 @@ Banner image here:
 
 
 This Python-based tool allows users to create custom recipes with ingredients and quantities, add selected recipes to their meal list, and generate a grocery list based on the meal list. The grocery list can then be used to make a call to the Kroger API to add the items directly to the user's cart for easy purchase.
+
+This came as a result of my wife and I trying to make grocery lists every week. This process was slow because we'd make a list in apple notes, then find these items one-by-one in the kroger app, and place an order for pickup. This tool is designed to streamline that process by allowing us to create recipes, add them to a meal list, and generate a grocery list that can be sent directly to the Kroger API to add items to our cart. This way, we can make a grocery list in a fraction of the time it used to take.
 
 ## Table of Contents
 
@@ -53,8 +58,9 @@ pip install -r requirements.txt
 - Select recipes for your meal list.
 - Generate a grocery list and send it to the Kroger API to populate your Kroger cart.
 
-## Example Workflow
+## Workflow
 
+### User Workflow
 1. **Create Recipes:** Add your custom recipes with ingredients.
 2. **Generate Meal List:** Select recipes to add to your meal plan.
 3. **Create Grocery List:** A shopping list is automatically created from the selected recipes.
@@ -67,6 +73,23 @@ graph TD
     C --> D[Generate Grocery List]
     D --> E[Kroger API Call: Add to Cart]
     
+```
+### Code Workflow
+```mermaid
+graph TD
+    A[User] -->|Start Program| B[grocerygetter.py]
+    B --> C[auth.py]
+    C -->|Get Access Token| D[Access Token]
+    D -->|Token Valid| E[recipes.py]
+    E -->|Create Recipe / Select Recipe| F[Meal List]
+    F -->|Generate Grocery List| G[Grocery List]
+    G --> H[kroger_api.py]
+    H -->|Search Products| I[Product Search]
+    I -->|Add to Cart| J[Add Items to Kroger Cart]
+    J --> K[Finish Program]
+
+    D -->|Token Expired| L[auth.py: Refresh Token]
+    L -->|Get New Access Token| D
 ```
 
 ## API Information
