@@ -1,135 +1,150 @@
-# Custom Recipe and Grocery List Generator (grocerygetter)
-Created by: <br/>
-[AJ Brown](https://sites.google.com/view/ansleyjbrown)<br/>
+# GroceryGetter
 
-> [!NOTE]
-> This project is a work in progress and is not functional yet. Please check back later for updates.
+GroceryGetter is a recipe planning and grocery cart preparation tool. Recipes are stored as data, selected into a meal plan, aggregated into a grocery list, mapped to preferred store products, and eventually sent to a grocery retailer cart.
 
-Banner image here:
-![banner](./figs/banner.png)
-*Figure generated using DALL-E from OpenAI*
+Created by [AJ Brown](https://github.com/ansleybrown1337).
+
+![GroceryGetter banner](./figs/grocerygetter-banner.png)
+
+The current implementation is a local Streamlit app backed by SQLite. Kroger is the first planned vendor integration, and live cart writes are intentionally disabled in the UI until OAuth and product matching are completed.
 
 > [!IMPORTANT]
-> **Disclaimer:** This project is not affiliated with, endorsed by, or associated with Kroger. The use of Kroger's API and/or logo is solely for the purpose of integrating with their publicly available services. All trademarks and logos belong to their respective owners.
+> This project is not affiliated with, endorsed by, or associated with Kroger. The Kroger API and trademarks belong to their respective owners.
 
+## Current Status
 
-This Python-based tool allows users to create custom recipes with ingredients and quantities, add selected recipes to their meal list, and generate a grocery list based on the meal list. The grocery list can then be used to make a call to the Kroger API to add the items directly to the user's cart for easy purchase.
+Working now:
 
-This came as a result of my wife and I trying to make grocery lists every week. This process was slow because we'd make a list in apple notes, then find these items one-by-one in the kroger app, and place an order for pickup. This tool is designed to streamline that process by allowing us to create recipes, add them to a meal list, and generate a grocery list that can be sent directly to the Kroger API to add items to our cart. This way, we can make a grocery list in a fraction of the time it used to take.
+- SQLite schema for recipes, ingredients, recipe steps, and product mappings.
+- Seed recipe library with five starter recipes in `data/seed_recipes.json`.
+- Ingredient aggregation across multiple selected recipes.
+- Basic unit normalization for common volume, mass, and count units.
+- Streamlit UI for selecting recipes, editing grocery drafts, guided recipe entry, reviewing carts, and saving product preferences.
+- Tests for persistence, aggregation, product mapping, and Kroger payload creation.
 
-## Table of Contents
+Not live yet:
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Example Workflow](#example-workflow)
-- [API Information](#api-information)
-- [Contributions](#contributions)
-- [License](#license)
-- [Contact](#contact)
-
-## Features
-
-- **Custom Recipe Creation:** Users can input ingredients and their quantities to create custom recipes.
-- **Meal List Generation:** Select recipes to add to a personalized meal list.
-- **Grocery List:** Automatically generates a grocery list from the meal list.
-- **Kroger API Integration:** Adds items from the grocery list to the user's Kroger shopping cart.
-
-## Installation
-1. Clone the repository:
-```bash
-git clone https://github.com/ansleybrown1337/grocerygetter.git
-```
-2. Install the required packages:
-```bash
-pip install -r requirements.txt
-```
-3. set up your Kroger API credentials by following the instructions in the [Kroger API documentation](https://developer.kroger.com/documentation)
-
-## Usage
-
-1. Run the script to create your custom recipes and generate a grocery list:
-   ```bash
-   python grocerygetter.py
-   ```
-
-2. Follow the prompts to:
-- Create new recipes by specifying ingredients and quantities.
-- Select recipes for your meal list.
-- Generate a grocery list and send it to the Kroger API to populate your Kroger cart.
+- OAuth callback handling in the Streamlit app.
+- Vendor product search UI.
+- Real add-to-cart calls from the UI.
+- Package-size math, leftovers tracking, and substitution preferences.
 
 ## Workflow
 
-### User Workflow
-1. **Create Recipes:** Add your custom recipes with ingredients.
-2. **Generate Meal List:** Select recipes to add to your meal plan.
-3. **Create Grocery List:** A shopping list is automatically created from the selected recipes.
-4. **API Call:** The items from the grocery list are added to your Kroger cart.
-
 ```mermaid
-graph TD
-    A[User] --> B[Create Recipes]
-    B --> C[Select Recipes for Meal List]
-    C --> D[Generate Grocery List]
-    D --> E[Kroger API Call: Add to Cart]
-    
-```
-### Code Workflow
-```mermaid
-graph TD
-    A[User] -->|Start Program| B[grocerygetter.py]
-    B --> C[auth.py]
-    C -->|Get Access Token| D[Access Token]
-    D -->|Token Valid| E[recipes.py]
-    E -->|Create Recipe / Select Recipe| F[Meal List]
-    F -->|Generate Grocery List| G[Grocery List]
-    G --> H[kroger_api.py]
-    H -->|Search Products| I[Product Search]
-    I -->|Add to Cart| J[Add Items to Kroger Cart]
-    J --> K[Finish Program]
-
-    D -->|Token Expired| L[auth.py: Refresh Token]
-    L -->|Get New Access Token| D
+flowchart TD
+    A["Recipe Library"] --> B["Make Grocery List"]
+    B --> C["Aggregate Ingredients"]
+    C --> D["Edit Grocery Draft"]
+    D --> E["Review Cart & Order"]
+    E --> F["Choose Vendor"]
+    F --> G["Review Product Preferences"]
+    G --> H{"All Items Mapped?"}
+    H -- "No" --> I["Choose or Enter Preferred Product"]
+    I --> G
+    H -- "Yes" --> J["Future: Add Items to Vendor Cart"]
+    J --> K["Checkout in Vendor App or Website"]
 ```
 
-## API Information
+## Project Structure
 
-This tool uses the [Kroger API](https://developer.kroger.com/) to add items from the grocery list to the user's Kroger shopping cart. Make sure to register for an API key and add your credentials in the `.env` file as shown in the example below:
+```text
+app.py                         Streamlit app entrypoint
+data/schema.sql                SQLite schema
+data/seed_recipes.json         Starter recipes committed as source data
+src/grocerygetter/database.py  Database initialization and seed loading
+src/grocerygetter/repository.py SQLite repository methods
+src/grocerygetter/meal_planner.py Ingredient aggregation logic
+src/grocerygetter/kroger.py    Kroger API adapter and cart payload builder
+src/grocerygetter/models.py    Dataclasses for core app concepts
+src/grocerygetter/units.py     Unit normalization helpers
+tests/                         Unit tests
+```
+
+## Setup
+
+Create an environment and install dependencies:
 
 ```bash
-KROGER_API_KEY = your_api_key 
-KROGER_API_SECRET = your_api_secret
+pip install -r requirements.txt
 ```
 
+Or with conda:
 
-To load these variables in your Python script, use the `python-dotenv` library as follows:
-
-```python
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from the .env file
-load_dotenv()
-
-# Access variables
-kroger_api_key = os.getenv('KROGER_API_KEY')
-kroger_api_secret = os.getenv('KROGER_API_SECRET')
+```bash
+conda env create -f environment.yml
+conda activate grocerygetter
 ```
 
-## Contributions
+Copy `.env.example` to `.env` when you are ready to work on Kroger credentials:
 
-Contributions are welcome! Please submit a pull request or open an issue for any feature requests or bug reports. We encourage collaboration and improvements to the tool.
+```bash
+cp .env.example .env
+```
+
+The app uses `data/grocerygetter.sqlite` by default. That file is generated locally from `data/schema.sql` and `data/seed_recipes.json`; it is not meant to be edited by hand or committed.
+
+## Run The App
+
+```bash
+streamlit run app.py
+```
+
+The first run creates the SQLite database and loads seed recipes if the recipe table is empty.
+
+## Run Tests
+
+```bash
+python -m unittest discover -s tests
+```
+
+If your system Python is not on PATH, use the Python executable from your environment.
+
+## Data Model
+
+Recipes are stored as rows, not classes. That keeps the data portable and makes it easier to build a website, mobile API, or multi-user backend later.
+
+Core tables:
+
+- `recipes`: recipe metadata such as name, servings, source, and notes.
+- `recipe_ingredients`: structured ingredient rows with name, quantity, unit, and preparation.
+- `recipe_steps`: ordered cooking instructions.
+- `product_mappings`: saved preferences from normalized grocery items to store products/UPCs.
+
+Seed recipes live in JSON so the repo stays readable in git. SQLite is generated from that source data.
+
+## Vendor Integration Notes
+
+The app separates recipe planning from vendor API calls. This is intentional:
+
+- Product and location lookup can be developed without touching cart writes.
+- Cart writes usually require a shopper-authorized token.
+- The grocery list should be reviewed before anything is sent to an external cart.
+- Saved UPC mappings should be reusable so repeated weekly shopping gets faster.
+
+The target flow is:
+
+1. Build a grocery list from selected recipes.
+2. Remove pantry items and adjust grocery quantities.
+3. Choose a vendor for cart review.
+4. Search vendor products for each grocery item.
+5. Let the user choose the best product.
+6. Save the UPC/product mapping.
+7. Build a reviewed cart payload.
+8. Add items to the vendor cart.
+9. Finish checkout in the vendor app or website.
+
+## Development Plan
+
+1. Finish core recipe management: edit/delete recipes, import/export seed data, and better ingredient parsing.
+2. Promote common ingredients into a dedicated ingredient catalog if fuzzy matching is not enough.
+3. Build Kroger OAuth into the app.
+4. Add location-aware Kroger product search.
+5. Save chosen product mappings per ingredient, location, and modality.
+6. Convert ingredient quantities into package counts where possible.
+7. Enable live add-to-cart after review.
+8. Later: migrate the same domain layer behind a proper web API and responsive frontend.
 
 ## License
 
-This project is licensed under the GNU GPL v2.o License. See the `LICENSE` file for more information.
-
-### Disclaimer
-This tool is an open-source project and is provided as-is, without any warranties or guarantees. The developer (AJ Brown) is not responsible for any issues or damages resulting from the use of this tool. By using this tool, you agree to hold the developer harmless from any liability.
-
-## Contact
-
-Developed by **AJ Brown**. You can reach me at: [ansleybrown1337@gmail.com](mailto:ansleybrown1337@gmail.com).
-
----
-**Note:** This project is not affiliated with Kroger. It uses their public API for grocery list automation.
+This project is licensed under the GNU GPL v2.0 License. See `LICENSE` for details.

@@ -1,22 +1,31 @@
 # Project TODOs
-In order:
-- [x] draft all scripts
-- [ ] test api credentials and ensure they're working
-- [ ] start making some test recipes
-    - [ ] figure out how to associate recipes with ingredients and quantities
-    - [ ] do I need a recipe database? is this a class? multiple classes? etc.
-        - [https://recipemd.org/](https://recipemd.org/)
-        - [python recipemd data fmt](https://recipemd.org/_apidoc/recipemd.data.html)
-- [ ] test adding recipes to meal list and ensure ingredients and quantities are being added properly
-- [ ] scan cookbook for recipes to add
-    - [ ] use gpt to codify recipes and add them to the database
-- [ ] test generating grocery list with multiple recipes after adding real recipes
-- [ ] start associating recipe ingredients with kroger products
-- [ ] test adding items to kroger cart
 
-# Project Ideas for optimization
-- make streamlit app to serve as easy user interface for non-coders
-- make sure numbers don't come out as decimals/floats, and round up to nearest whole number, then buy the smallest package that meets that quantity
-    - track extra ingredients to quantify how much is left over
-- create shopping report that records what was bought
-- ensure a 'generic breakfast' recipe is added to the database that encompasses all regular breakfast items for us.
+## Done
+
+- [x] Draft original prototype scripts.
+- [x] Move recipe storage toward data instead of per-recipe classes.
+- [x] Add SQLite schema for recipes, ingredients, steps, and product mappings.
+- [x] Add seed recipes for local testing.
+- [x] Add grocery-list aggregation tests.
+- [x] Add Streamlit MVP workflow.
+
+## Next
+
+- [ ] Add recipe editing and deletion in the UI.
+- [ ] Improve ingredient parsing beyond the current pipe-delimited input.
+- [ ] Add import/export tools for JSON seed data.
+- [ ] Test Kroger API credentials.
+- [ ] Implement OAuth callback handling for shopper-authorized Kroger tokens.
+- [ ] Add Kroger location search.
+- [ ] Add Kroger product search for each grocery item.
+- [ ] Let users choose preferred Kroger products and save UPC mappings.
+- [ ] Convert recipe quantities into package counts.
+- [ ] Enable reviewed add-to-cart calls.
+
+## Later Ideas
+
+- [ ] Scan cookbook recipes and codify them into seed/import data.
+- [ ] Track leftover ingredients after package-size conversion.
+- [ ] Create shopping reports for what was bought.
+- [ ] Add a reusable breakfast template recipe.
+- [ ] Move from Streamlit to a responsive web frontend if the app outgrows the prototype UI.

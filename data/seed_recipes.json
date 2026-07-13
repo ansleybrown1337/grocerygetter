@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Weeknight Turkey Chili",
+    "servings": 6,
+    "source": "Seed recipe",
+    "notes": "Simple pantry chili for testing ingredient aggregation.",
+    "ingredients": [
+      {"raw_text": "1 tbsp olive oil", "ingredient_name": "olive oil", "quantity": 1, "unit": "tbsp"},
+      {"raw_text": "1 yellow onion, diced", "ingredient_name": "yellow onion", "quantity": 1, "unit": "each", "preparation": "diced"},
+      {"raw_text": "3 cloves garlic, minced", "ingredient_name": "garlic", "quantity": 3, "unit": "clove", "preparation": "minced"},
+      {"raw_text": "1 lb ground turkey", "ingredient_name": "ground turkey", "quantity": 1, "unit": "lb"},
+      {"raw_text": "2 cans diced tomatoes", "ingredient_name": "diced tomatoes", "quantity": 2, "unit": "can"},
+      {"raw_text": "1 can kidney beans", "ingredient_name": "kidney beans", "quantity": 1, "unit": "can"},
+      {"raw_text": "2 tbsp chili powder", "ingredient_name": "chili powder", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Cook onion in olive oil until softened.",
+      "Add garlic and turkey, then cook until browned.",
+      "Stir in tomatoes, beans, and chili powder.",
+      "Simmer for 25 minutes."
+    ]
+  },
+  {
+    "name": "Chicken Rice Bowls",
+    "servings": 4,
+    "source": "Seed recipe",
+    "ingredients": [
+      {"raw_text": "1.5 lb chicken breast", "ingredient_name": "chicken breast", "quantity": 1.5, "unit": "lb"},
+      {"raw_text": "2 cups rice", "ingredient_name": "rice", "quantity": 2, "unit": "cup"},
+      {"raw_text": "1 yellow onion, diced", "ingredient_name": "yellow onion", "quantity": 1, "unit": "each", "preparation": "diced"},
+      {"raw_text": "2 cloves garlic, minced", "ingredient_name": "garlic", "quantity": 2, "unit": "clove", "preparation": "minced"},
+      {"raw_text": "1 bell pepper, sliced", "ingredient_name": "bell pepper", "quantity": 1, "unit": "each", "preparation": "sliced"},
+      {"raw_text": "1 cup frozen corn", "ingredient_name": "frozen corn", "quantity": 1, "unit": "cup"},
+      {"raw_text": "2 tbsp olive oil", "ingredient_name": "olive oil", "quantity": 2, "unit": "tbsp"},
+      {"raw_text": "1 tsp cumin", "ingredient_name": "cumin", "quantity": 1, "unit": "tsp"},
+      {"raw_text": "1 lime", "ingredient_name": "lime", "quantity": 1, "unit": "each"}
+    ],
+    "steps": [
+      "Cook rice according to package directions.",
+      "Season and cook chicken until done.",
+      "Saute pepper and corn.",
+      "Serve chicken and vegetables over rice."
+    ]
+  },
+  {
+    "name": "Tomato Basil Pasta",
+    "servings": 4,
+    "source": "Seed recipe",
+    "ingredients": [
+      {"raw_text": "12 oz pasta", "ingredient_name": "pasta", "quantity": 12, "unit": "oz"},
+      {"raw_text": "2 cups cherry tomatoes", "ingredient_name": "cherry tomatoes", "quantity": 2, "unit": "cup"},
+      {"raw_text": "0.5 yellow onion, diced", "ingredient_name": "yellow onion", "quantity": 0.5, "unit": "each", "preparation": "diced"},
+      {"raw_text": "3 cloves garlic, sliced", "ingredient_name": "garlic", "quantity": 3, "unit": "clove", "preparation": "sliced"},
+      {"raw_text": "2 tbsp olive oil", "ingredient_name": "olive oil", "quantity": 2, "unit": "tbsp"},
+      {"raw_text": "0.5 cup parmesan", "ingredient_name": "parmesan", "quantity": 0.5, "unit": "cup"},
+      {"raw_text": "0.25 cup basil", "ingredient_name": "basil", "quantity": 0.25, "unit": "cup"}
+    ],
+    "steps": [
+      "Boil pasta until al dente.",
+      "Cook tomatoes and garlic in olive oil.",
+      "Toss pasta with sauce, parmesan, and basil."
+    ]
+  },
+  {
+    "name": "Black Bean Tacos",
+    "servings": 4,
+    "source": "Seed recipe",
+    "ingredients": [
+      {"raw_text": "8 tortillas", "ingredient_name": "tortillas", "quantity": 8, "unit": "each"},
+      {"raw_text": "2 cans black beans", "ingredient_name": "black beans", "quantity": 2, "unit": "can"},
+      {"raw_text": "1 yellow onion, diced", "ingredient_name": "yellow onion", "quantity": 1, "unit": "each", "preparation": "diced"},
+      {"raw_text": "2 cloves garlic, minced", "ingredient_name": "garlic", "quantity": 2, "unit": "clove", "preparation": "minced"},
+      {"raw_text": "1 tbsp olive oil", "ingredient_name": "olive oil", "quantity": 1, "unit": "tbsp"},
+      {"raw_text": "1 tsp cumin", "ingredient_name": "cumin", "quantity": 1, "unit": "tsp"},
+      {"raw_text": "1 cup shredded cheese", "ingredient_name": "shredded cheese", "quantity": 1, "unit": "cup"},
+      {"raw_text": "1 cup salsa", "ingredient_name": "salsa", "quantity": 1, "unit": "cup"},
+      {"raw_text": "1 avocado", "ingredient_name": "avocado", "quantity": 1, "unit": "each"},
+      {"raw_text": "1 lime", "ingredient_name": "lime", "quantity": 1, "unit": "each"}
+    ],
+    "steps": [
+      "Warm beans with seasoning.",
+      "Toast tortillas.",
+      "Fill tortillas with beans, cheese, salsa, avocado, and lime."
+    ]
+  },
+  {
+    "name": "Maple Berry Oatmeal",
+    "servings": 2,
+    "source": "Seed recipe",
+    "ingredients": [
+      {"raw_text": "1 cup oats", "ingredient_name": "oats", "quantity": 1, "unit": "cup"},
+      {"raw_text": "2 cups milk", "ingredient_name": "milk", "quantity": 2, "unit": "cup"},
+      {"raw_text": "1 cup frozen berries", "ingredient_name": "frozen berries", "quantity": 1, "unit": "cup"},
+      {"raw_text": "2 tbsp maple syrup", "ingredient_name": "maple syrup", "quantity": 2, "unit": "tbsp"},
+      {"raw_text": "0.25 cup walnuts", "ingredient_name": "walnuts", "quantity": 0.25, "unit": "cup"}
+    ],
+    "steps": [
+      "Simmer oats and milk until thick.",
+      "Top with berries, maple syrup, and walnuts."
+    ]
+  }
+]
