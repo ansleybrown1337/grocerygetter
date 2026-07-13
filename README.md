@@ -63,17 +63,18 @@ tests/                         Unit tests
 
 ## Setup
 
-Create an environment and install dependencies:
+Use Python 3.12. Create an environment and install dependencies:
 
 ```bash
+python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Or with conda:
+On Windows PowerShell, that is typically:
 
-```bash
-conda env create -f environment.yml
-conda activate grocerygetter
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 Copy `.env.example` to `.env` when you are ready to work on Kroger credentials:
@@ -91,6 +92,12 @@ streamlit run app.py
 ```
 
 The first run creates the SQLite database and loads seed recipes if the recipe table is empty.
+
+## Streamlit Community Cloud
+
+This repo uses `requirements.txt` for deployment. Do not add `environment.yml` unless you intentionally want Streamlit Cloud to use Conda, which is slower to solve.
+
+In Streamlit Community Cloud, set the Python version to **3.12** in the app's advanced settings, then deploy `app.py` from the repository root.
 
 ## Run Tests
 

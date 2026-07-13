@@ -4,12 +4,7 @@ Created by AJ Brown
 ansleybrown1337@gmail.com
 20 Oct 2024
 
-Remember to update the environment.yml and requirements.txt files with any new libraries
-used in this file. 
-For conda, use the following command:
-conda env export --no-builds > environment.yml
-For pip, use the following command:
-pip freeze > requirements.txt
+Remember to update requirements.txt with any new libraries used in this file.
 """
 
 from auth import get_access_token, refresh_access_token

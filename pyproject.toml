@@ -7,11 +7,11 @@ name = "grocerygetter"
 version = "0.1.0"
 description = "Recipe planning and grocery cart preparation tool."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12,<3.13"
 dependencies = [
-    "python-dotenv",
-    "requests",
-    "streamlit",
+    "python-dotenv>=1.0,<2",
+    "requests>=2.31,<3",
+    "streamlit>=1.59,<2",
 ]
 
 [tool.setuptools.packages.find]
