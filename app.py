@@ -302,6 +302,19 @@ def apply_brand_styles() -> None:
                 line-height: 1.45;
             }
 
+            .gg-callout-panel {
+                display: none;
+            }
+
+            div[class*="st-key-add-recipe-panel"] > div[data-testid="stVerticalBlockBorderWrapper"] {
+                background: rgba(245, 251, 241, 0.82);
+                border-color: rgba(103, 142, 105, 0.45);
+                border-left: 5px solid #6f9b72;
+                border-radius: 8px;
+                box-shadow: 0 12px 28px rgba(36, 50, 53, 0.06);
+                padding: 0.25rem 0.55rem 0.8rem;
+            }
+
             .gg-help-list li {
                 margin-bottom: 0.45rem;
             }
@@ -833,8 +846,9 @@ def render_recipes_tab(repository: RecipeRepository) -> None:
                     st.markdown(f"{index}. {step}")
 
     with right:
-        st.subheader("Add Recipe")
-        render_add_recipe_form(repository)
+        with st.container(border=True, key="add-recipe-panel"):
+            st.subheader("Add Recipe")
+            render_add_recipe_form(repository)
 
 
 def render_add_recipe_form(repository: RecipeRepository) -> None:
