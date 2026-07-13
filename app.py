@@ -18,13 +18,15 @@ import streamlit as st
 from grocerygetter.database import DEFAULT_DB_PATH, initialize_database
 from grocerygetter.kroger import build_cart_payload
 from grocerygetter.meal_planner import build_grocery_list
-from grocerygetter.models import GroceryItem, MealSelection, ProductMapping
+from grocerygetter.models import GroceryItem, MealSelection, ProductMapping, RecipeSummary
 from grocerygetter.recipe_import import import_recipes_from_json
+from grocerygetter.random_recipes import choose_random_recipe_names
 from grocerygetter.repository import RecipeRepository
 from grocerygetter.units import format_quantity, normalize_ingredient_name, normalize_unit
 
 AUTHOR_NAME = "AJ Brown"
 AUTHOR_GITHUB_URL = "https://github.com/ansleybrown1337"
+RECIPE_IMPORT_DOC_URL = "https://github.com/ansleybrown1337/grocerygetter/blob/main/docs/RECIPE_IMPORT.md"
 MAKE_GROCERY_LIST_VIEW = "Make Grocery List"
 REVIEW_CART_VIEW = "Review Cart & Order"
 CONFIGURATION_VIEW = "Configuration"
@@ -472,6 +474,7 @@ def render_make_grocery_list_tab(repository: RecipeRepository) -> None:
     recipe_options = {recipe.name: recipe for recipe in summaries}
 
     st.subheader("Make Grocery List")
+    render_random_recipe_picker(recipe_options)
     hydrate_grocery_list_widget_state(recipe_options)
     selected_names = st.multiselect(
         "Recipes",
@@ -528,7 +531,49 @@ def render_make_grocery_list_tab(repository: RecipeRepository) -> None:
         st.rerun()
 
 
-def hydrate_grocery_list_widget_state(recipe_options: dict[str, object]) -> None:
+def render_random_recipe_picker(recipe_options: dict[str, RecipeSummary]) -> None:
+    random_enabled = st.checkbox(
+        "Random recipe picker",
+        help="Pick recipes from the full library so older favorites have a chance to show up.",
+    )
+    if not random_enabled:
+        return
+
+    recipe_names = list(recipe_options.keys())
+    if not recipe_names:
+        st.info("Add recipes before using the random picker.")
+        return
+
+    columns = st.columns([1, 2])
+    with columns[0]:
+        default_count = min(3, len(recipe_names))
+        recipe_count = st.number_input(
+            "Meals to pick",
+            min_value=1,
+            max_value=len(recipe_names),
+            value=default_count,
+            step=1,
+            help="The random picker replaces the current recipe selection.",
+        )
+    with columns[1]:
+        st.write("")
+        st.write("")
+        if st.button("Pick Random Recipes", type="primary"):
+            selected_names = choose_random_recipe_names(recipe_names, int(recipe_count))
+            st.session_state.selected_recipe_names_persisted = selected_names
+            st.session_state.selected_recipe_names_widget = selected_names
+
+            if "recipe_scale_values" not in st.session_state:
+                st.session_state.recipe_scale_values = {}
+            for recipe_name in selected_names:
+                recipe = recipe_options[recipe_name]
+                st.session_state.recipe_scale_values[recipe.id] = 1.0
+                st.session_state[f"scale-widget-{recipe.id}"] = 1.0
+
+            st.rerun()
+
+
+def hydrate_grocery_list_widget_state(recipe_options: dict[str, RecipeSummary]) -> None:
     if "selected_recipe_names_persisted" not in st.session_state:
         st.session_state.selected_recipe_names_persisted = list(
             st.session_state.get("selected_recipe_names", [])
@@ -981,7 +1026,10 @@ def render_recipe_import_form(repository: RecipeRepository) -> None:
         "Recipe JSON",
         type=["json"],
         accept_multiple_files=False,
-        help="Use the same JSON shape as data/seed_recipes.json, or wrap the list in a top-level recipes key.",
+        help=(
+            "Import a `.json` file using the documented recipe format. "
+            f"[View the import guide]({RECIPE_IMPORT_DOC_URL})."
+        ),
     )
     skip_duplicates = st.checkbox("Skip duplicate recipe names", value=True)
 

@@ -2,6 +2,8 @@
 
 GroceryGetter can import recipes from a JSON file in the Recipes tab of the Streamlit app. Use this when you want to add several recipes at once instead of entering them manually.
 
+For a complete working example, see [`data/seed_recipes.json`](../data/seed_recipes.json).
+
 ## How To Import
 
 1. Start the app:

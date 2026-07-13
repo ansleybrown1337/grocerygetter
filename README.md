@@ -19,7 +19,7 @@ Working now:
 - Seed recipe library with five starter recipes in `data/seed_recipes.json`.
 - Ingredient aggregation across multiple selected recipes.
 - Basic unit normalization for common volume, mass, and count units.
-- Streamlit UI for selecting recipes, editing grocery drafts, guided recipe entry, JSON recipe import, reviewing carts, and saving product preferences.
+- Streamlit UI for selecting recipes, random recipe picking, editing grocery drafts, guided recipe entry, JSON recipe import, reviewing carts, and saving product preferences.
 - Tests for persistence, aggregation, product mapping, and Kroger payload creation.
 
 Not live yet:

@@ -9,6 +9,7 @@
 - [x] Add grocery-list aggregation tests.
 - [x] Add Streamlit MVP workflow.
 - [x] Add JSON recipe import into the database.
+- [x] Add random recipe picking for grocery list planning.
 
 ## Next
 

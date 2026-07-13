@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 import sys
 import tempfile
 import unittest
@@ -12,6 +13,7 @@ from grocerygetter.database import initialize_database
 from grocerygetter.kroger import build_cart_payload
 from grocerygetter.meal_planner import build_grocery_list
 from grocerygetter.models import MealSelection, ProductMapping
+from grocerygetter.random_recipes import choose_random_recipe_names
 from grocerygetter.repository import RecipeRepository
 
 
@@ -93,6 +95,26 @@ class MealPlannerTests(unittest.TestCase):
                 ]
             },
         )
+
+    def test_choose_random_recipe_names_returns_requested_count_without_duplicates(self) -> None:
+        selected_names = choose_random_recipe_names(
+            ["Chili", "Tacos", "Pasta", "Oatmeal"],
+            3,
+            rng=random.Random(7),
+        )
+
+        self.assertEqual(len(selected_names), 3)
+        self.assertEqual(len(set(selected_names)), 3)
+        self.assertTrue(set(selected_names).issubset({"Chili", "Tacos", "Pasta", "Oatmeal"}))
+
+    def test_choose_random_recipe_names_caps_count_to_available_recipes(self) -> None:
+        selected_names = choose_random_recipe_names(
+            ["Chili", "Tacos"],
+            7,
+            rng=random.Random(3),
+        )
+
+        self.assertEqual(sorted(selected_names), ["Chili", "Tacos"])
 
 
 if __name__ == "__main__":
