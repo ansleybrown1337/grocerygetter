@@ -19,6 +19,7 @@ from grocerygetter.database import DEFAULT_DB_PATH, initialize_database
 from grocerygetter.kroger import build_cart_payload
 from grocerygetter.meal_planner import build_grocery_list
 from grocerygetter.models import GroceryItem, MealSelection, ProductMapping
+from grocerygetter.recipe_import import import_recipes_from_json
 from grocerygetter.repository import RecipeRepository
 from grocerygetter.units import format_quantity, normalize_ingredient_name, normalize_unit
 
@@ -849,6 +850,9 @@ def render_recipes_tab(repository: RecipeRepository) -> None:
         with st.container(border=True, key="add-recipe-panel"):
             st.subheader("Add Recipe")
             render_add_recipe_form(repository)
+            st.divider()
+            st.subheader("Import Recipes")
+            render_recipe_import_form(repository)
 
 
 def render_add_recipe_form(repository: RecipeRepository) -> None:
@@ -969,6 +973,72 @@ def render_add_recipe_form(repository: RecipeRepository) -> None:
             st.error(str(exc))
         else:
             st.success(f"Saved recipe '{name}'.")
+            st.rerun()
+
+
+def render_recipe_import_form(repository: RecipeRepository) -> None:
+    uploaded_file = st.file_uploader(
+        "Recipe JSON",
+        type=["json"],
+        accept_multiple_files=False,
+        help="Use the same JSON shape as data/seed_recipes.json, or wrap the list in a top-level recipes key.",
+    )
+    skip_duplicates = st.checkbox("Skip duplicate recipe names", value=True)
+
+    with st.expander("JSON shape", expanded=False):
+        st.markdown(
+            """
+            Import either a top-level recipe list or an object with a `recipes` list.
+
+            Required recipe fields: `name` and a non-empty `ingredients` list.
+
+            Required ingredient field: `ingredient_name` or `name`.
+
+            Optional fields: `servings`, `source`, `notes`, `steps`, ingredient `quantity`, `unit`, `raw_text`, and `preparation`.
+            """
+        )
+        st.code(
+            """
+[
+  {
+    "name": "Black Bean Tacos",
+    "servings": 4,
+    "source": "Family cookbook",
+    "notes": "Optional notes",
+    "ingredients": [
+      {
+        "raw_text": "2 cans black beans",
+        "ingredient_name": "black beans",
+        "quantity": 2,
+        "unit": "can"
+      }
+    ],
+    "steps": ["Warm beans.", "Fill tortillas."]
+  }
+]
+            """.strip(),
+            language="json",
+        )
+
+    if st.button("Import Recipes", type="primary", disabled=uploaded_file is None):
+        try:
+            summary = import_recipes_from_json(
+                repository,
+                uploaded_file.getvalue() if uploaded_file else b"",
+                skip_duplicates=skip_duplicates,
+            )
+        except ValueError as exc:
+            st.error(str(exc))
+            return
+
+        if summary.imported:
+            st.success(f"Imported {summary.imported} recipe(s).")
+        if summary.skipped:
+            st.info(f"Skipped {summary.skipped} duplicate recipe(s).")
+        if summary.errors:
+            for error in summary.errors:
+                st.error(error)
+        if summary.imported and not summary.errors:
             st.rerun()
 
 

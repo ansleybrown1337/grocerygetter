@@ -19,7 +19,7 @@ Working now:
 - Seed recipe library with five starter recipes in `data/seed_recipes.json`.
 - Ingredient aggregation across multiple selected recipes.
 - Basic unit normalization for common volume, mass, and count units.
-- Streamlit UI for selecting recipes, editing grocery drafts, guided recipe entry, reviewing carts, and saving product preferences.
+- Streamlit UI for selecting recipes, editing grocery drafts, guided recipe entry, JSON recipe import, reviewing carts, and saving product preferences.
 - Tests for persistence, aggregation, product mapping, and Kroger payload creation.
 
 Not live yet:
@@ -52,7 +52,9 @@ flowchart TD
 app.py                         Streamlit app entrypoint
 data/schema.sql                SQLite schema
 data/seed_recipes.json         Starter recipes committed as source data
+docs/RECIPE_IMPORT.md          JSON recipe import format and app workflow
 src/grocerygetter/database.py  Database initialization and seed loading
+src/grocerygetter/recipe_import.py JSON recipe import validation and loading
 src/grocerygetter/repository.py SQLite repository methods
 src/grocerygetter/meal_planner.py Ingredient aggregation logic
 src/grocerygetter/kroger.py    Kroger API adapter and cart payload builder
@@ -92,6 +94,12 @@ streamlit run app.py
 ```
 
 The first run creates the SQLite database and loads seed recipes if the recipe table is empty.
+
+## Import Recipes
+
+Use the Recipes tab to import a `.json` file with many recipes at once. The importer accepts either the same top-level array shape as `data/seed_recipes.json` or an object with a top-level `recipes` array.
+
+See [Recipe Import Format](./docs/RECIPE_IMPORT.md) for required fields, examples, duplicate handling, and validation notes.
 
 ## Streamlit Community Cloud
 

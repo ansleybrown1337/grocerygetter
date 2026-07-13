@@ -8,12 +8,14 @@
 - [x] Add seed recipes for local testing.
 - [x] Add grocery-list aggregation tests.
 - [x] Add Streamlit MVP workflow.
+- [x] Add JSON recipe import into the database.
 
 ## Next
 
+- [ ] Add user login so saved recipes, preferences, and shopping records can be tied to an account.
 - [ ] Add recipe editing and deletion in the UI.
 - [ ] Improve ingredient parsing beyond the current pipe-delimited input.
-- [ ] Add import/export tools for JSON seed data.
+- [ ] Add JSON recipe export tools.
 - [ ] Test Kroger API credentials.
 - [ ] Implement OAuth callback handling for shopper-authorized Kroger tokens.
 - [ ] Add Kroger location search.
@@ -24,7 +26,7 @@
 
 ## Later Ideas
 
-- [ ] Scan cookbook recipes and codify them into seed/import data.
+- [ ] Use AI to let users scan recipes and add them to the recipe library.
 - [ ] Track leftover ingredients after package-size conversion.
 - [ ] Create shopping reports for what was bought.
 - [ ] Add a reusable breakfast template recipe.
