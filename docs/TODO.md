@@ -21,7 +21,9 @@
 - [ ] Implement OAuth callback handling for shopper-authorized Kroger tokens.
 - [ ] Add Kroger location search.
 - [ ] Add Kroger product search for each grocery item.
+- [ ] Design a vendor product selection flow so users can review search results and associate a chosen product/UPC with each grocery item for future carts.
 - [ ] Let users choose preferred Kroger products and save UPC mappings.
+- [ ] Add cart preference rules for choosing products by lowest unit price, best rating, or other user-selected optimization goals.
 - [ ] Convert recipe quantities into package counts.
 - [ ] Enable reviewed add-to-cart calls.
 
